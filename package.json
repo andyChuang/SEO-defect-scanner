@@ -1,0 +1,19 @@
+{
+  "name": "@scorpion2272/seo-defect-scanner",
+  "version": "1.0.0",
+  "description": "Seo defect scanner",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andyChuang/SEO-defect-scanner.git"
+  },
+  "author": "andyChuang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andyChuang/SEO-defect-scanner/issues"
+  },
+  "homepage": "https://github.com/andyChuang/SEO-defect-scanner#readme"
+}
