@@ -1,33 +1,35 @@
 var fs = require('fs');
-const parse5 = require('parse5');
+var rule1 = require('./rules/PreDefineRule1_imgWithoutAlt')
+var rule2 = require('./rules/PreDefineRule2_aWithoutRel')
+var rule3 = require('./rules/PreDefineRule3_headerCheck')
+var rule4 = require('./rules/PreDefineRule4_strongTagNum')
+var rule5 = require('./rules/PreDefineRule5_moreThan1H1')
+const cheerio = require('cheerio')
+let $
 
-function SeoDefectScanner() {
-	this.input = "input.html";
-}
-
-function scan() {
-	parseHtml(readFile(this.input));
-}
-
-function parseHtml(content) {
-	console.log(content);
-	var dom = parse5.parse(content);
-	console.log(dom);
+function SeoDefectScanner(config) {
+	this.input = config.inputFile;
+	this.output = config.outputFile
+	$ = cheerio.load(readFile(this.input))
 }
 
 function readFile(path) {
 	return fs.readFileSync(path, "utf8");
-	//fs.readFile(path, function(err, data) {
-	//	console.log(data);
-	//	callback(data);
-	//});
 }
 
-function printMsg() {
-	console.log("This is a message from the demo package: input file is " + this.input);
+function scan() {
+	console.log(new rule1().go($))
+	console.log(new rule2().go($))
+	console.log(new rule3().go($))
+	console.log(new rule4().go($))
+	console.log(new rule5().go($))
 }
 
-SeoDefectScanner.prototype.printMsg = printMsg;
+function preDefineRule5_moreThan1H1() {
+
+}
+
 SeoDefectScanner.prototype.scan = scan;
 
 module.exports = SeoDefectScanner;
+
