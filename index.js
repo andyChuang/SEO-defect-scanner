@@ -35,16 +35,16 @@ function outputResult(result, config, outputStream) {
 }
 
 function doScan() {	
-	var result = ""
+	var result = []
 	scanList.forEach(function(elem) {
-		result += elem.go($)
+		result.push(elem.go($)) 
 	})
 
 	for (var ruleId in customizedRules) {
-		result += customizedRules[ruleId]($);
+		result.push(customizedRules[ruleId]($))
 	}
 
-	return result
+	return result.join("\n")
 }
 
 SeoDefectScanner.prototype.addRule = function(rule, id) {
