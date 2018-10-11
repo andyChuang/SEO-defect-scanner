@@ -23,6 +23,7 @@ function SeoDefectScanner(config) {
 function outputResult(result, config, outputStream) {
 	switch(config.outputType) {
 		case "file":
+			fs.writeFileSync(config.outputFile, result);
 			break;
 		case "stream":
 			outputStream.write(result)
