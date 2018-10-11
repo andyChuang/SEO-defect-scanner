@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/andyChuang/SEO-defect-scanner#readme",
   "dependencies": {
-    "cheerio": "^1.0.0-rc.2"
+    "cheerio": "^1.0.0-rc.2",
+    "require-directory": "^2.1.1"
   }
 }

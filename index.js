@@ -1,10 +1,7 @@
-var fs = require('fs');
+const fs = require('fs');
 const { Writable } = require('stream');
-var rule1 = require('./rules/PreDefineRule1_imgWithoutAlt')
-var rule2 = require('./rules/PreDefineRule2_aWithoutRel')
-var rule3 = require('./rules/PreDefineRule3_headerCheck')
-var rule4 = require('./rules/PreDefineRule4_strongTagNum')
-var rule5 = require('./rules/PreDefineRule5_moreThan1H1')
+const requireDirectory = require('require-directory');
+const rules = require('./rules');
 const cheerio = require('cheerio')
 let $
 var content
@@ -56,13 +53,13 @@ function outputResult(result, config, outputStream) {
 	}
 }
 
-function doScan() {
+function doScan() {	
 	var result = ""
-	result += new rule1().go($)
-	result += new rule2().go($)
-	result += new rule3().go($)
-	result += new rule4().go($)
-	result += new rule5().go($)
+	result += new rules.rule1().go($)
+	result += new rules.rule2().go($)
+	result += new rules.rule3().go($)
+	result += new rules.rule4().go($)
+	result += new rules.rule5().go($)
 	return result
 }
 
