@@ -7,6 +7,7 @@ const cheerio = require('cheerio')
 let $
 var content
 var scanList = []
+var customizedRules = {}
 
 const inputStreamDest = new Writable({
   write(chunk, encoding, callback) { 
@@ -37,7 +38,27 @@ function doScan() {
 	scanList.forEach(function(elem) {
 		result += elem.go($)
 	})
+
+	for (var ruleId in customizedRules) {
+		result += customizedRules[ruleId]($);
+	}
+
 	return result
+}
+
+SeoDefectScanner.prototype.addRule = function(rule, id) {
+	customizedRules[id] = rule;
+	return this;
+}
+
+SeoDefectScanner.prototype.removeRule = function(id) {
+	delete customizedRules[id];
+	return this;
+}
+
+SeoDefectScanner.prototype.resetRule = function(id) {
+	customizedRules = {};
+	return this;
 }
 
 SeoDefectScanner.prototype.scan = function (input, outputStream) {
@@ -57,23 +78,23 @@ SeoDefectScanner.prototype.scan = function (input, outputStream) {
 			break;
 	}		
 }
-SeoDefectScanner.prototype.addRule1 = function () {
+SeoDefectScanner.prototype.addPredefinedRule1 = function () {
 	scanList.push(new rules.rule1())
 	return this
 }
-SeoDefectScanner.prototype.addRule2 = function () {
+SeoDefectScanner.prototype.addPredefinedRule2 = function () {
 	scanList.push(new rules.rule2())
 	return this
 }
-SeoDefectScanner.prototype.addRule3 = function () {
+SeoDefectScanner.prototype.addPredefinedRule3 = function () {
 	scanList.push(new rules.rule3())
 	return this
 }
-SeoDefectScanner.prototype.addRule4 = function (strongTagNum) {
+SeoDefectScanner.prototype.addPredefinedRule4 = function (strongTagNum) {
 	scanList.push(new rules.rule4(strongTagNum))
 	return this
 }
-SeoDefectScanner.prototype.addRule5 = function () {
+SeoDefectScanner.prototype.addPredefinedRule5 = function () {
 	scanList.push(new rules.rule5())
 	return this
 }
