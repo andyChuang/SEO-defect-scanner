@@ -5,7 +5,7 @@ const requireDirectory = require('require-directory');
 const rules = require('./rules');
 const cheerio = require('cheerio')
 let $
-var content
+var content = ""
 var scanList = []
 var customizedRules = {}
 
@@ -67,7 +67,7 @@ SeoDefectScanner.prototype.scan = function (input, outputStream) {
 	switch(config.inputType) {
 		case "file":
 			$ = cheerio.load(fs.readFileSync(config.inputFile, "utf8"))
-			outputResult(doScan(), config)
+			outputResult(doScan(), config, outputStream)
 			break;
 		case "stream":
 			input
