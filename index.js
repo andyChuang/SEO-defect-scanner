@@ -5,13 +5,13 @@ const requireDirectory = require('require-directory');
 const rules = require('./rules');
 const cheerio = require('cheerio')
 let $
-var content = ""
+var inputStreamContent = ""
 var scanList = []
 var customizedRules = {}
 
 const inputStreamDest = new Writable({
   write(chunk, encoding, callback) { 
-  	content+=chunk.toString();
+  	inputStreamContent+=chunk.toString();
     callback();
   }
 });
@@ -20,13 +20,14 @@ function SeoDefectScanner(config) {
 	this.config = config;
 }
 
-function outputResult(result, config, outputStream) {
-	switch(config.outputType) {
+function outputResult(result, outputType, outputDest) {
+	switch(outputType) {
 		case "file":
-			fs.writeFileSync(config.outputFile, result);
+			console.log(result)
+			fs.writeFileSync(outputDest, result);
 			break;
 		case "stream":
-			outputStream.write(result)
+			outputDest.write(result)
 			break;
 		case "console":
 			console.log(result)
@@ -62,19 +63,19 @@ SeoDefectScanner.prototype.resetRule = function(id) {
 	return this;
 }
 
-SeoDefectScanner.prototype.scan = function (input, outputStream) {
+SeoDefectScanner.prototype.scan = function (input, output) {
 	var config = this.config
 	switch(config.inputType) {
 		case "file":
-			$ = cheerio.load(fs.readFileSync(config.inputFile, "utf8"))
-			outputResult(doScan(), config, outputStream)
+			$ = cheerio.load(fs.readFileSync(input, "utf8"))
+			outputResult(doScan(), config.outputType, output)
 			break;
 		case "stream":
 			input
 			.pipe(inputStreamDest)
 			.on('finish', function() {
-				$ = cheerio.load(content)
-				outputResult(doScan(), config, outputStream)
+				$ = cheerio.load(inputStreamContent)
+				outputResult(doScan(), config.outputType, output)
 			})
 			break;
 	}		
