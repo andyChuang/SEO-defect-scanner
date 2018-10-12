@@ -4,7 +4,7 @@ A npm module that let developers use this package to scan a HTML file and show a
 
 
 ## Quick Start
-1. `npm install @scorpion2272/SEO-defect-scanner`
+1. `npm install @scorpion2272/seo-defect-scanner`
 2. Use the pre-defined rule 1 mentioned above
     ```javascript=
     var fs = require('fs');
