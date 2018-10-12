@@ -17,7 +17,9 @@ const inputStreamDest = new Writable({
 });
 
 function SeoDefectScanner(config) {
-	this.config = config;
+	this.config = config || {};
+	this.config.inputType = this.config.inputType || "file";
+	this.config.outputType = this.config.outputType || "console";
 }
 
 function outputResult(result, outputType, outputDest) {
