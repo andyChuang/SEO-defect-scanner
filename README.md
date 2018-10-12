@@ -6,14 +6,15 @@ A npm module that let developers use this package to scan a HTML file and show a
 ## Quick Start
 1. `npm install @scorpion2272/SEO-defect-scanner`
 2. Use the pre-defined rule 1 mentioned above
-```javascript=
-var fs = require('fs');
-var seoScanner = require("@scorpion2272/SEO-defect-scanner")
-new seoScanner()
-.addPredefinedRule1()
-.scan('input.html') // html file to be scanned
-```
+    ```javascript=
+    var fs = require('fs');
+    var seoScanner = require("@scorpion2272/SEO-defect-scanner")
+    new seoScanner()
+    .addPredefinedRule1()
+    .scan('input.html') // html file to be scanned
+    ```
 3. The console output should be like this:
+
 > There are 2 <img> tag without alt attribute
 
 
@@ -36,9 +37,9 @@ new seoScanner().addPredefinedRule2()
 Contains 3 subrules:
 
 In `<head>` tag
-    a. Detect if header doesn’t have `<title>` tag
-    b. Detect if header doesn’t have `<meta name=“descriptions” … />` tag
-    c. Detect if header doesn’t have `<meta name=“keywords” … />` tag
+1. Detect if header doesn’t have `<title>` tag
+2. Detect if header doesn’t have `<meta name=“descriptions” … />` tag
+3. Detect if header doesn’t have `<meta name=“keywords” … />` tag
 ```javascript=
 new seoScanner().addPredefinedRule3()
 ```
@@ -123,7 +124,7 @@ new seoScanner({inputType:'file'}).scan('input.html')
 #### inputType: 'stream'
 You should pass a Node readable stream as the first parameter of scan()
 ```javascript=
-var inputStream = fs.createReadStream(inputFile)
+var inputStream = fs.createReadStream('input.html')
 new seoScanner({inputType:'stream'}).scan(inputStream)
 ```
 
