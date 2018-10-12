@@ -1,5 +1,5 @@
 function PreDefineRule4_strongTagNum(strongTagNum) {
-	this.strongTagNum = strongTagNum || 15
+	this.strongTagNum = strongTagNum || 15;
 }
 
 function scan($) {
@@ -7,13 +7,12 @@ function scan($) {
 }
 
 function go($) {
-	var result = this.scan($)
+	var result = this.scan($);
 	if(result) {
 		return "There’re more than " + this.strongTagNum + " <strong> tag in HTML"
 	}
-	return "";
 }
 
-PreDefineRule4_strongTagNum.prototype.go = go
-PreDefineRule4_strongTagNum.prototype.scan = scan
+PreDefineRule4_strongTagNum.prototype.go = go;
+PreDefineRule4_strongTagNum.prototype.scan = scan;
 module.exports = PreDefineRule4_strongTagNum;

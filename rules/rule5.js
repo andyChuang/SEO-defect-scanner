@@ -6,12 +6,11 @@ function scan($) {
 }
 
 function go($) {
-	var result = scan($)
+	var result = scan($);
 	if(result) {
-		return "HTML have more than one <H1> tag"
+		return "HTML have more than one <H1> tag";
 	}
-	return "";
 }
 
-PreDefineRule5_moreThan1H1.prototype.go = go
+PreDefineRule5_moreThan1H1.prototype.go = go;
 module.exports = PreDefineRule5_moreThan1H1;

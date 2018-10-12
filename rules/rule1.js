@@ -2,24 +2,22 @@ function PreDefineRule1_imgWithoutAlt() {
 }
 
 function scan($) {
-	var defectNum = 0
+	var defectNum = 0;
 	$('img').each(function() {
 		if(!$(this).attr('alt')) {
-			defectNum++
+			defectNum++;
 		}
 	})
 
-	return defectNum
+	return defectNum;
 }
 
 function go($) {
-	defectNum = scan($)
+	defectNum = scan($);
 	if(defectNum > 0) {
-		return 'There are ' + defectNum + ' <img> tag without alt attribute';	
+		return 'There are ' + defectNum + ' <img> tag without alt attribute';
 	}
-	
-	return "";
 }
 
-PreDefineRule1_imgWithoutAlt.prototype.go = go
+PreDefineRule1_imgWithoutAlt.prototype.go = go;
 module.exports = PreDefineRule1_imgWithoutAlt;

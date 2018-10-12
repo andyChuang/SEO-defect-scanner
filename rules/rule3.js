@@ -35,5 +35,5 @@ function go($) {
 	return scan($, this.subRules).join("\n");
 }
 
-PreDefineRule3_headerCheck.prototype.go = go
+PreDefineRule3_headerCheck.prototype.go = go;
 module.exports = PreDefineRule3_headerCheck;
