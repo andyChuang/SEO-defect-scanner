@@ -6,8 +6,6 @@ const rules = require('./rules');
 const cheerio = require('cheerio');
 let $;
 var inputStreamContent = ""
-var scanList = [];
-var customizedRules = {};
 
 const inputStreamDest = new Writable({
   write(chunk, encoding, callback) { 
@@ -20,10 +18,25 @@ function SeoDefectScanner(config) {
 	this.config = config || {};
 	this.config.inputType = this.config.inputType || "file";
 	this.config.outputType = this.config.outputType || "console";
+	this.scanList = [];
+	this.customizedRules = {};
 }
 
-function outputResult(result, outputType, outputDest) {
-	switch(outputType) {
+SeoDefectScanner.prototype.doScan = function() {	
+	var result = [];
+	this.scanList.forEach(function(elem) {
+		result.push(elem.go($));
+	});
+
+	for (var ruleId in this.customizedRules) {
+		result.push(this.customizedRules[ruleId]($));
+	}
+
+	return result.join("\n");
+}
+
+SeoDefectScanner.prototype.outputResult = function(result, outputDest) {
+	switch(this.config.outputType) {
 		case "file":
 			fs.writeFileSync(outputDest, result);
 			break;
@@ -36,69 +49,55 @@ function outputResult(result, outputType, outputDest) {
 	}
 }
 
-function doScan() {	
-	var result = [];
-	scanList.forEach(function(elem) {
-		result.push(elem.go($));
-	});
-
-	for (var ruleId in customizedRules) {
-		result.push(customizedRules[ruleId]($));
-	}
-
-	return result.join("\n");
-}
-
 SeoDefectScanner.prototype.addRule = function(rule, id) {
-	customizedRules[id] = rule;
+	this.customizedRules[id] = rule;
 	return this;
 }
 
 SeoDefectScanner.prototype.removeRule = function(id) {
-	delete customizedRules[id];
+	delete this.customizedRules[id];
 	return this;
 }
 
 SeoDefectScanner.prototype.resetRule = function() {
-	customizedRules = {};
+	this.customizedRules = {};
 	return this;
 }
 
 SeoDefectScanner.prototype.scan = function (input, output) {
-	var config = this.config;
-	switch(config.inputType) {
+	switch(this.config.inputType) {
 		case "file":
 			$ = cheerio.load(fs.readFileSync(input, "utf8"));
-			outputResult(doScan(), config.outputType, output);
+			this.outputResult(this.doScan(), output);
 			break;
 		case "stream":
 			input
 			.pipe(inputStreamDest)
-			.on('finish', function() {
+			.on('finish', () => {
 				$ = cheerio.load(inputStreamContent);
-				outputResult(doScan(), config.outputType, output);
+				this.outputResult(this.doScan(), output);
 			})
 			break;
 	}		
 }
 SeoDefectScanner.prototype.addPredefinedRule1 = function () {
-	scanList.push(new rules.rule1());
+	this.scanList.push(new rules.rule1());
 	return this;
 }
 SeoDefectScanner.prototype.addPredefinedRule2 = function () {
-	scanList.push(new rules.rule2());
+	this.scanList.push(new rules.rule2());
 	return this;
 }
 SeoDefectScanner.prototype.addPredefinedRule3 = function () {
-	scanList.push(new rules.rule3());
+	this.scanList.push(new rules.rule3());
 	return this;
 }
 SeoDefectScanner.prototype.addPredefinedRule4 = function (strongTagNum) {
-	scanList.push(new rules.rule4(strongTagNum));
+	this.scanList.push(new rules.rule4(strongTagNum));
 	return this;
 }
 SeoDefectScanner.prototype.addPredefinedRule5 = function () {
-	scanList.push(new rules.rule5());
+	this.scanList.push(new rules.rule5());
 	return this;
 }
 
